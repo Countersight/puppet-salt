@@ -47,8 +47,8 @@ define salt::repo (
       }
 
       yumrepo{'saltstack-repo':
-        descr     => 'SaltStack repo for RHEL/CentOS $releasever'
-        baseurl   => $_url
+        descr     => 'SaltStack repo for RHEL/CentOS $releasever',
+        baseurl   => $_url,
         gpgcheck  => true,
         gpgkey    =>  "${_url}/SALTSTACK-GPG-KEY.pub",
         enabled   => true,
