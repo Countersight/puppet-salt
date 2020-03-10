@@ -39,6 +39,21 @@ define salt::repo (
         },
       }
     }
+    'RedHat': {
+      if $salt_release == 'latest' {
+        $_url = "${base_repo_url}/py3/${facts['os']['name'].downcase}/${facts['os']['distro']['release']['major']}/${facts['os']['architecture']}/latest"
+      } else {
+        $_url = "${base_repo_url}/py3/${facts['os']['name'].downcase}/${facts['os']['distro']['release']['major']}/${facts['os']['architecture']}/archive/${salt_release}"
+      }
+
+      yumrepo{'saltstack-repo':
+        descr     => 'SaltStack repo for RHEL/CentOS $releasever'
+        baseurl   => $_url
+        gpgcheck  => true,
+        gpgkey    =>  "${_url}/SALTSTACK-GPG-KEY.pub",
+        enabled   => true,
+      }
+    }
     default: {
       fail("\"${module_name}\" provides no repository information for OSfamily \"${facts['os']['family']}\"")
     }
