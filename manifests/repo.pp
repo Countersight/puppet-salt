@@ -43,7 +43,7 @@ define salt::repo (
       if $facts['os']['name'].downcase in ['redhat','centos','oraclelinux']{
         $osname = 'redhat'
       } else {
-        $osname = $facts['os']['name']
+        $osname = $facts['os']['name'].downcase
       }
 
       if $salt_release == 'latest' {
