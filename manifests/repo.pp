@@ -40,10 +40,16 @@ define salt::repo (
       }
     }
     'RedHat': {
-      if $salt_release == 'latest' {
-        $_url = "${base_repo_url}/py3/${facts['os']['family'].downcase}/${facts['os']['release']['major']}/${facts['os']['hardware']}/latest"
+      if $facts['os']['name'].downcase in ['redhat','centos','oraclelinux']{
+        $osname = 'redhat'
       } else {
-        $_url = "${base_repo_url}/py3/${facts['os']['family'].downcase}/${facts['os']['release']['major']}/${facts['os']['hardware']}/archive/${salt_release}"
+        $osname = $facts['os']['name']
+      }
+
+      if $salt_release == 'latest' {
+        $_url = "${base_repo_url}/py3/${osname}/${facts['os']['release']['major']}/${facts['os']['hardware']}/latest"
+      } else {
+        $_url = "${base_repo_url}/py3/${osname}/${facts['os']['release']['major']}/${facts['os']['hardware']}/archive/${salt_release}"
       }
 
       yumrepo{'saltstack-repo':
